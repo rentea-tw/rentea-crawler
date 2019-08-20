@@ -1,0 +1,11 @@
+# Python 3 byte code
+*.pyc
+
+# VS code config
+.vscode
+
+# Virtualenv
+.venv
+
+# Default log and output directory
+data
