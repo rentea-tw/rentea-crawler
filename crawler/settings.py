@@ -7,10 +7,12 @@ import logging
 
 scrapy.utils.log.configure_logging(install_root_handler=False)
 logging.basicConfig(
-    filename='scrapy.log',
+    filename=os.path.join(os.path.dirname(__file__), '../data/scrapy.log'),
     format='%(levelname)s: %(message)s',
     level=logging.DEBUG
 )
+
+LOG_LEVEL = logging.INFO
 
 BOT_NAME = os.environ.get('SCRAPY_BOT_NAME', 'dev-rentea-house-crawler')
 
@@ -29,6 +31,7 @@ COOKIES_ENABLED = False
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
+    'crawler.pipelines.SimpleJsonExporter': 300
 }
 
 EXTENSIONS = {
