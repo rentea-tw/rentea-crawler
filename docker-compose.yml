@@ -1,0 +1,8 @@
+version: '3.3'
+services:
+  crawler: 
+    build: .
+    volumes:
+      - ./requirements.txt:/app/requirement.txt
+      - ./crawler:/app/crawler
+      - ./scrapy.cfg:/app/scrapy.cfg
