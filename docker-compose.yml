@@ -3,7 +3,7 @@ services:
   crawler: 
     build: .
     volumes:
-      - ./requirements.txt:/app/requirement.txt
+      - ./requirements.txt:/app/requirements.txt
       - ./crawler:/app/crawler
       - ./scrapy.cfg:/app/scrapy.cfg
       - ./data:/app/data

@@ -10,13 +10,13 @@ This test aims to find optimized `minuteago` parameter for rentea-crawler, so th
 
 This test will measure performance of `periodic591` crawler directly, but ignore network delay and potential DB latency.
 
-Each round of test consists of multiple cralwer job, which use different `minuteago` and run for the same test period.
+Each round of test consists of multiple crawler job, which use different `minuteago` and run for the same test period.
 
-Each crawler job is triggered by shell script. The shell script guarantees there will be at most one crawler bind to an 
+Each crawler job is triggered by script. The script guarantees there will be at most one crawler bind to an 
 external IP at a time and records the following info in sqlite for later analysis:
 
-1. Test ID, start time, end time, time spent, and `minuteago` of the test.
-2. House ID, time cralwed, and per_ping_price collected during this test.
+1. Job ID, start time, end time, time spent, and `minuteago` of the test.
+2. House ID, time crawled, and per_ping_price collected during this test.
 
 There will be follow up analysis after all jobs are done:
 

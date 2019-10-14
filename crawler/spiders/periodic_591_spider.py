@@ -41,6 +41,7 @@ class Periodic591Spider(Rental591Spider):
         )
 
         time_ago = datetime.now() - timedelta(minutes=minuteago)
+        self.minute_ago = minuteago
         self.epoch_ago = time_ago.timestamp()
         self.count_per_city = {}
 
