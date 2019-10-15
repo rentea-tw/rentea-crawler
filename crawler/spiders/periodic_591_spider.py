@@ -13,6 +13,7 @@ scrapy crawl periodic591 -a minuteago=<int>
 """
 import json
 import logging
+import socket
 from datetime import datetime, timedelta
 from scrapy import Request
 from scrapy_twrh.spiders.enums import DealStatusType
@@ -26,7 +27,7 @@ DEFAULT_MINUTEAGO = 60
 class Periodic591Spider(Rental591Spider):
     name = 'periodic591'
 
-    def __init__(self, minuteago, **kwargs):
+    def __init__(self, minuteago, bind=None, **kwargs):
         try:
             minuteago = int(minuteago)
         except ValueError:
@@ -37,8 +38,16 @@ class Periodic591Spider(Rental591Spider):
 
         super().__init__(
             **kwargs,
+            start_list=self.periodic_start_list,
             parse_list=self.periodic_parse_list
         )
+
+        if bind:
+            try:
+                socket.inet_aton(bind)
+                self.bind = (bind, )
+            except socket.error:
+                self.bind = None
 
         time_ago = datetime.now() - timedelta(minutes=minuteago)
         self.minute_ago = minuteago
@@ -47,6 +56,16 @@ class Periodic591Spider(Rental591Spider):
 
         for city in all_591_cities:
             self.count_per_city[city['city']] = 0
+
+    def decorate_request(self, request):
+        if self.bind:
+            request.meta['bindaddress'] = self.bind
+
+        return request
+
+    def periodic_start_list(self):
+        for item in super().default_start_list():
+            yield self.decorate_request(item)
 
     def periodic_parse_list(self, response):
         data = json.loads(response.text)
@@ -64,20 +83,23 @@ class Periodic591Spider(Rental591Spider):
             else:
                 house_item = self.gen_shared_attrs(house, meta)
                 # send non-gps request first at it may be closed soon
-                yield self.gen_detail_request(util.DetailRequestMeta(
+                request = self.gen_detail_request(util.DetailRequestMeta(
                     house_item['vendor_house_id'],
                     False
                 ))
+                yield self.decorate_request(request)
                 if meta.name in self.count_per_city:
                     self.count_per_city[meta.name] += 1
 
         if data['data']['data'] and not has_outdated:
             # only goto next page when there's response and not outdated
-            yield self.gen_list_request(util.ListRequestMeta(
+            request = self.gen_list_request(util.ListRequestMeta(
                 meta.id,
                 meta.name,
                 meta.page + 1
             ))
+
+            yield self.decorate_request(request)
         else:
             logging.info(f'[{meta.name}] total {self.count_per_city[meta.name]} house to crawl!')
 
@@ -99,7 +121,8 @@ class Periodic591Spider(Rental591Spider):
                 }
 
                 gps_arg['meta']['main_item'] = item
-                yield Request(**gps_arg)
+
+                yield self.decorate_request(Request(**gps_arg))
 
     def parse_gps_response(self, response):
         for item in super().parse_gps_response(response):
