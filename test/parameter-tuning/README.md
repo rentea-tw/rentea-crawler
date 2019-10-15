@@ -6,6 +6,12 @@ This test aims to find optimized `minuteago` parameter for rentea-crawler, so th
 2. Reduce target website #request at best
 3. The higher update frequency the better
 
+## System Requirement
+
+1. Python 3.7
+2. See `requirements.txt` in this test folder
+3. jq
+
 ## Test Design and Assumption
 
 This test will measure performance of `periodic591` crawler directly, but ignore network delay and potential DB latency.
@@ -41,9 +47,26 @@ The test will start from simple and increase its complexity by iteration.
 4. Test 4 - test with `minuteago` = [5min, 15min, 30min, 60min] for 1 day.
 5. Test 5 - test with `minuteago` = [5min, 15min, 30min, 60min] for 7 days.
 
+## Test Setup
+
+To specify IP address to bind, please
+
+1. Copy `ip-list.example.json` to `ip-list.json`
+2. Specify mapping between `minuteago` and IP address
+
 ## How to Run Test
 
-TBD
+Run the following commands in current directory.
+
+```bash
+# Enable virtualenv if needed
+. .venv/bin/activate
+
+pip install -r requirements.txt
+
+./run.sh <minuteago>
+
+```
 
 ## How to Run Analysis
 

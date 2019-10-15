@@ -6,11 +6,6 @@ import scrapy
 import logging
 
 scrapy.utils.log.configure_logging(install_root_handler=False)
-logging.basicConfig(
-    filename=os.path.join(os.path.dirname(__file__), '../data/scrapy.log'),
-    format='%(levelname)s: %(message)s',
-    level=logging.INFO
-)
 
 LOG_LEVEL = logging.INFO
 
