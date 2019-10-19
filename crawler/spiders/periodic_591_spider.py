@@ -27,7 +27,7 @@ DEFAULT_MINUTEAGO = 60
 class Periodic591Spider(Rental591Spider):
     name = 'periodic591'
 
-    def __init__(self, minuteago, bind=None, **kwargs):
+    def __init__(self, minuteago, **kwargs):
         try:
             minuteago = int(minuteago)
         except ValueError:
@@ -42,13 +42,6 @@ class Periodic591Spider(Rental591Spider):
             parse_list=self.periodic_parse_list
         )
 
-        if bind:
-            try:
-                socket.inet_aton(bind)
-                self.bind = (bind, )
-            except socket.error:
-                self.bind = None
-
         time_ago = datetime.now() - timedelta(minutes=minuteago)
         self.minute_ago = minuteago
         self.epoch_ago = time_ago.timestamp()
@@ -57,15 +50,9 @@ class Periodic591Spider(Rental591Spider):
         for city in all_591_cities:
             self.count_per_city[city['city']] = 0
 
-    def decorate_request(self, request):
-        if self.bind:
-            request.meta['bindaddress'] = self.bind
-
-        return request
-
     def periodic_start_list(self):
         for item in super().default_start_list():
-            yield self.decorate_request(item)
+            yield item
 
     def periodic_parse_list(self, response):
         data = json.loads(response.text)
@@ -87,7 +74,7 @@ class Periodic591Spider(Rental591Spider):
                     house_item['vendor_house_id'],
                     False
                 ))
-                yield self.decorate_request(request)
+                yield request
                 if meta.name in self.count_per_city:
                     self.count_per_city[meta.name] += 1
 
@@ -99,7 +86,7 @@ class Periodic591Spider(Rental591Spider):
                 meta.page + 1
             ))
 
-            yield self.decorate_request(request)
+            yield request
         else:
             logging.info(f'[{meta.name}] total {self.count_per_city[meta.name]} house to crawl!')
 
@@ -122,7 +109,7 @@ class Periodic591Spider(Rental591Spider):
 
                 gps_arg['meta']['main_item'] = item
 
-                yield self.decorate_request(Request(**gps_arg))
+                yield Request(**gps_arg)
 
     def parse_gps_response(self, response):
         for item in super().parse_gps_response(response):

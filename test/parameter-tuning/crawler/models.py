@@ -1,6 +1,6 @@
 from os import path
 from datetime import datetime
-from peewee import Model, CharField, DateTimeField, \
+from peewee import Model, CharField, DateTimeField, UUIDField, \
     ForeignKeyField, IntegerField, FloatField, SqliteDatabase
 
 db = SqliteDatabase(path.join(path.dirname(__file__), '../data/db.sqlite'))
@@ -14,6 +14,7 @@ class TimestampModel(Model):
         return super().save(*args, **kwargs)
 
 class Task(TimestampModel):
+    id = UUIDField(primary_key=True)
     minute_ago = IntegerField()
     end_time = DateTimeField(null=True)
     minute_taken = FloatField(null=True)

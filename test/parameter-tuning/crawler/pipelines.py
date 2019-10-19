@@ -1,3 +1,4 @@
+import uuid
 from datetime import datetime
 from os import path
 from scrapy_twrh.items import GenericHouseItem
@@ -9,9 +10,9 @@ class TestRecorder(object):
     """Write result into sqlite for test validation"""
 
     def open_spider(self, spider):
-        task = Task(minute_ago=spider.minute_ago)
+        task = Task(id=uuid.uuid4(), minute_ago=spider.minute_ago)
         self.task = task
-        task.save()
+        task.save(force_insert=True)
 
     def close_spider(self, spider):
         self.task.end_time = datetime.now()

@@ -47,13 +47,6 @@ The test will start from simple and increase its complexity by iteration.
 4. Test 4 - test with `minuteago` = [5min, 15min, 30min, 60min] for 1 day.
 5. Test 5 - test with `minuteago` = [5min, 15min, 30min, 60min] for 7 days.
 
-## Test Setup
-
-To specify IP address to bind, please
-
-1. Copy `ip-list.example.json` to `ip-list.json`
-2. Specify mapping between `minuteago` and IP address
-
 ## How to Run Test
 
 Run the following commands in current directory.
