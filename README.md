@@ -15,7 +15,9 @@ A crawler that provides timely response to data change on public rental house pl
 
 ## Setup
 
-### Using Docker Env
+choose one of the options below (Docker or virtualenv) 
+
+#### If you're gonna work in `Docker` Env
 
 Build development image and update python package
 
@@ -23,7 +25,7 @@ Build development image and update python package
 docker-compose build crawler
 ```
 
-### Using virtualenv
+#### Or, if you're gonna work in `virtualenv` 
 
 1. Initialize a virtualenv
 
