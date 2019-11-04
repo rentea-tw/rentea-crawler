@@ -80,3 +80,22 @@ Test[30], total:   741 jobs, miss    0 jobs, mean: 14.1 min, median: 13.4 min, r
 Test[60], total:   371 jobs, miss    0 jobs, mean: 18.0 min, median: 16.7 min, range: [35.8-10.8] min, stdev: 6.0 min
 ```
 
+### Duplication Detection
+
+```bash
+python -m analytic.dupdetect
+```
+
+```
+=== Overall Stats ===
+Test[05], get   3102 houses during   137 jobs.  22.6 houses per job. 1575 dup houses. Dup stats: mean/median/stdev [ 20.9/ 13/ 25.7], range [  134-2]
+Test[15], get  46037 houses during  1469 jobs.  31.3 houses per job. 2142 dup houses. Dup stats: mean/median/stdev [169.6/ 99/266.8], range [ 1468-2]
+Test[30], get  48221 houses during   741 jobs.  65.1 houses per job. 1934 dup houses. Dup stats: mean/median/stdev [ 97.3/ 66/138.6], range [  740-2]
+Test[60], get  48458 houses during   371 jobs. 130.6 houses per job. 1770 dup houses. Dup stats: mean/median/stdev [ 57.9/ 44/ 70.7], range [  371-2]
+
+=== Consecutive Job Stats ===
+Test[05], mean/stdev [ 47.9% /  2.8%], man/min [ 55.5% - 41.6%]
+Test[15], mean/stdev [ 45.4% /  4.1%], man/min [ 56.0% - 32.8%]
+Test[30], mean/stdev [ 41.4% /  6.2%], man/min [ 55.3% - 28.5%]
+Test[60], mean/stdev [ 37.1% /  7.6%], man/min [ 53.2% - 20.7%]
+```
