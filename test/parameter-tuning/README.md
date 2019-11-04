@@ -63,4 +63,20 @@ pip install -r requirements.txt
 
 ## How to Run Analysis
 
-TBD
+After enable virtualenv, type the following command under directory `test/parameter-tuning`.
+
+### Execution Time Analysis
+
+```bash
+python -m analytic.executiontime
+```
+
+Example result:
+
+```
+Test[05], total:   137 jobs, miss 4397 jobs, mean: 11.5 min, median: 11.4 min, range: [13.0- 8.1] min, stdev: 0.7 min
+Test[15], total:  1469 jobs, miss   52 jobs, mean: 12.3 min, median: 12.2 min, range: [17.2-10.6] min, stdev: 1.2 min
+Test[30], total:   741 jobs, miss    0 jobs, mean: 14.1 min, median: 13.4 min, range: [23.3-10.5] min, stdev: 2.8 min
+Test[60], total:   371 jobs, miss    0 jobs, mean: 18.0 min, median: 16.7 min, range: [35.8-10.8] min, stdev: 6.0 min
+```
+
