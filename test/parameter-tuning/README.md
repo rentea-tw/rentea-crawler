@@ -86,6 +86,8 @@ Test[60], total:   371 jobs, miss    0 jobs, mean: 18.0 min, median: 16.7 min, r
 python -m analytic.dupdetect
 ```
 
+Example result:
+
 ```
 === Overall Stats ===
 Test[05], get   3102 houses during   137 jobs.  22.6 houses per job. 1575 dup houses. Dup stats: mean/median/stdev [ 20.9/ 13/ 25.7], range [  134-2]
@@ -98,4 +100,25 @@ Test[05], mean/stdev [ 47.9% /  2.8%], man/min [ 55.5% - 41.6%]
 Test[15], mean/stdev [ 45.4% /  4.1%], man/min [ 56.0% - 32.8%]
 Test[30], mean/stdev [ 41.4% /  6.2%], man/min [ 55.3% - 28.5%]
 Test[60], mean/stdev [ 37.1% /  7.6%], man/min [ 53.2% - 20.7%]
+```
+
+### Equivalency Analysis
+
+```bash
+python -m analytic.crosscomparison
+```
+
+Example result:
+
+```
+=== Number of (duplicated) house crawled per test ===
+Test[15] avg:  277.3
+Test[30] avg:  316.8
+Test[60] avg:  402.1
+
+=== Overall Coverage ===
+Test[15] coverage avg:  80.4%, std:   5.7%
+Test[30] coverage avg:  62.0%, std:   5.9%
+Test[60] coverage avg:  48.8%, std:   9.3%
+Overall  coverage avg:  64.8%, std:  28.2%
 ```
