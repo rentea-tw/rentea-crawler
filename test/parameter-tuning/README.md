@@ -63,6 +63,14 @@ pip install -r requirements.txt
 
 ## How to Run Analysis
 
+To run analysis without waiting for data collection, please download [2 weeks sample data](https://drive.google.com/open?id=1RJy5dmZKKRg0Ztwkr49U1O_3SNQzh-G6) and restore it by
+
+```bash
+unzip 1019-1104.sql.zip
+cd test/parameter-tuning
+cat 1019.1104.sql | sqlite3 data/db.sqlite
+```
+
 After enable virtualenv, type the following command under directory `test/parameter-tuning`.
 
 ### Execution Time Analysis
