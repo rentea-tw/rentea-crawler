@@ -31,7 +31,6 @@ class Periodic591Spider(Rental591Spider):
             minuteago = int(minuteago)
         except ValueError:
             minuteago = DEFAULT_MINUTEAGO
-
         if 'target_cities' in kwargs and isinstance(kwargs['target_cities'], str):
             kwargs['target_cities'] = kwargs['target_cities'].split(',')
 
