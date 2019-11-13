@@ -35,7 +35,11 @@ ITEM_PIPELINES = {
 }
 
 EXTENSIONS = {
+    'crawler.extensions.sentry.SentryLogging': -1, # Load SentryLogging extension before others
 }
+# Send exceptions to Sentry
+# replace SENTRY_DSN by you own DSN
+SENTRY_DSN = "https://f59068a56b0c420daf5e1680d0276c0b@sentry.io/1817994"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
