@@ -4,6 +4,7 @@ Ignore minute_ago == 5 as it has too many false alarm
 1. Show #house crawled per test
 2. Show per-hour house overlap behavior across tests
 """
+import argparse
 from collections import namedtuple
 from datetime import timedelta
 import statistics
@@ -80,9 +81,9 @@ def house_crawled_per_test():
         print(f'Test[{minute_ago:02}] avg: {mean:6.1f}')
     print()
 
-def compare_one_hour_data(target_time):
+def compare_step_hour_data(target_time, hour_per_step):
     end_time = target_time + timedelta(minutes=1)
-    start_time = end_time - timedelta(hours=1)
+    start_time = end_time - timedelta(hours=hour_per_step)
 
     houses = (TaskHouse
         .select(Task.minute_ago, TaskHouse.house_id)
@@ -101,7 +102,7 @@ def compare_one_hour_data(target_time):
 
     return hourly_record.get_coverage()
 
-def per_house_overlap():
+def per_house_overlap(hour_per_step):
     time_range = (Task
         .select(
             fn.MAX(Task.created_at).alias('max_created_at'),
@@ -115,7 +116,7 @@ def per_house_overlap():
         second=0,
         microsecond=0
     )
-    one_step = timedelta(hours=1)
+    one_step = timedelta(hours=hour_per_step)
 
     start_time = time_cursor
     end_time = time_range.max_created_at
@@ -124,14 +125,14 @@ def per_house_overlap():
     per_test_coverage = {}
     overall_coverage = []
 
-    print('=== Overall Coverage ===')
+    print(f'=== Every {hour_per_step} Hours Coverage ===')
     print('progress:  0%', end='\r')
 
     while time_cursor < end_time:
         progress = (time_cursor - start_time) / time_duration
         print(f'progress:  {progress*100:5.1f}%', end = '\r')
 
-        stats = compare_one_hour_data(time_cursor)
+        stats = compare_step_hour_data(time_cursor, hour_per_step)
 
         for minute_ago in stats['tests'].keys():
             if minute_ago not in per_test_coverage:
@@ -152,5 +153,16 @@ def per_house_overlap():
     print(f'Overall  coverage avg: {mean:5.1f}%, std: {stdev:5.1f}%')
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        '--hour_per_step',
+        '-s',
+        default=24,
+        type=int,
+        help='Hours per step'
+    )
+    args = parser.parse_args()
+
     house_crawled_per_test()
-    per_house_overlap()
+    per_house_overlap(args.hour_per_step)

@@ -124,9 +124,9 @@ Test[15] avg:  277.3
 Test[30] avg:  316.8
 Test[60] avg:  402.1
 
-=== Overall Coverage ===
-Test[15] coverage avg:  80.4%, std:   5.7%
-Test[30] coverage avg:  62.0%, std:   5.9%
-Test[60] coverage avg:  48.8%, std:   9.3%
-Overall  coverage avg:  64.8%, std:  28.2%
+=== Every 24 Hours Coverage ===
+Test[15] coverage avg:  93.5%, std:   4.6%
+Test[30] coverage avg:  96.3%, std:  11.1%
+Test[60] coverage avg:  96.5%, std:  10.8%
+Overall  coverage avg:  95.7%, std:  13.8%
 ```
