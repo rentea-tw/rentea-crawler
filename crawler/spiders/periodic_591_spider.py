@@ -57,14 +57,14 @@ class Periodic591Spider(Rental591Spider):
         data = json.loads(response.text)
         meta = response.meta['rental']
 
-        houses = data['data']['topData'] + data['data']['data']
+        # per discussion in #8, we don't need AD list at all
+        # ref: https://github.com/rentea-tw/rentea-crawler/issues/8#issuecomment-558021819
+        houses = data['data']['data']
         has_outdated = False
 
         for house in houses:
-            house['is_vip'] = 'id' not in house
-
             # updatetime == creation time in 591...
-            if not house['is_vip'] and house['updatetime'] < self.epoch_ago:
+            if house['updatetime'] < self.epoch_ago:
                 has_outdated = True
             else:
                 house_item = self.gen_shared_attrs(house, meta)
@@ -77,7 +77,7 @@ class Periodic591Spider(Rental591Spider):
                 if meta.name in self.count_per_city:
                     self.count_per_city[meta.name] += 1
 
-        if data['data']['data'] and not has_outdated:
+        if houses and not has_outdated:
             # only goto next page when there's response and not outdated
             request = self.gen_list_request(util.ListRequestMeta(
                 meta.id,
